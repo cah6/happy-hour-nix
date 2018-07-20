@@ -1,0 +1,12 @@
+{
+  "days": [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday"
+  ],
+  "time": "15:00-18:00",
+  "schedule_description": "$1 Sapporo, $2 Sake",
+  "details": []
+}

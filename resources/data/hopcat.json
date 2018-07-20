@@ -1,0 +1,61 @@
+{
+  "city": "Detroit",
+  "restaurant": "HopCat",
+  "schedule": [
+    {
+      "days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "time": "15:00-18:00",
+      "description": "$1.50 off beers, $5 off burgers",
+      "deals": [
+        1,
+        3
+      ]
+    },
+    {
+      "days": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday"
+      ],
+      "time": "22:00-24:00",
+      "description": "1/2 off apps and fries",
+      "deals": [
+        2
+      ]
+    },
+    {
+      "days": [
+        "Monday"
+      ],
+      "time": "15:00-24:00",
+      "description": "1/2 off apps and fries, $1.50 off beers",
+      "deals": [
+        2,
+        1
+      ]
+    }
+  ],
+  "menu": [
+    {
+      "id": 1,
+      "description": "$1.50 off local 30 beers, wine, wells",
+      "price": 4.00
+    },
+    {
+      "id": 2,
+      "description": "Half off apps and fries",
+      "price": 5.00
+    },
+    {
+      "id": 3,
+      "description": "$5 off burgers",
+      "price": 6.00
+    }
+  ]
+}
