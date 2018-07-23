@@ -7,8 +7,8 @@ import qualified Data.Aeson.Types as Aeson
 import Data.Attoparsec.Text (parseOnly)
 import qualified Data.Attoparsec.Text as Attoparsec
 
-attoAeson :: Attoparsec.Parser a -> Value -> Aeson.Parser a
-attoAeson parser (String x) = case parseOnly parser x of
+attoToAeson :: Attoparsec.Parser a -> Value -> Aeson.Parser a
+attoToAeson parser (String x) = case parseOnly parser x of
   Left e -> fail e
   Right x -> pure x
-attoAeson _ x = typeMismatch "Attoparsec" x
+attoToAeson _ x = typeMismatch "Attoparsec" x
