@@ -11,23 +11,8 @@
         "Friday"
       ],
       "time": "15:00-18:00",
-      "scheduleDescription": "$1 Sapporo, $2 Sake",
-      "details": [
-        1,
-        2
-      ]
+      "scheduleDescription": "$1 Sapporo, $2 Sake"
     }
   ],
-  "menu": [
-    {
-      "id": 1,
-      "description": "Sapporo",
-      "price": 100
-    },
-    {
-      "id": 2,
-      "description": "Sake",
-      "price": 200
-    }
-  ]
+  "link": "https://detroit.eater.com/maps/best-new-detroit-happy-hour-map/johnny-noodle-king"
 }

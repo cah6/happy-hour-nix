@@ -12,7 +12,7 @@ import Static
 frontend :: (StaticWidget x (), Widget x ())
 frontend = (head', body)
   where
-    head' = el "title" $ text "Obelisk Minimal Example"
+    head' = el "title" $ text "Happy Hour Listings!!"
     body = do
       text "Welcome to Obelisk!"
       el "p" $ text $ T.pack "this is a string"

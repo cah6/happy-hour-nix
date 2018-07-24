@@ -3,7 +3,7 @@ module Common.Api where
 
 import qualified Data.Attoparsec.Text as AP
 import           Data.Attoparsec.Text (decimal, char)
-import qualified Money as Money
+import qualified Money
 import qualified Data.ByteString.Lazy as B
 import Data.Aeson
 import Data.Aeson.Types
@@ -12,6 +12,7 @@ import Data.Text (Text, pack, breakOn)
 import Data.Time.Exts.Base hiding (pack)
 import Data.Time.Calendar (Day(..))
 import Data.Time.LocalTime (TimeOfDay(..))
+import System.Directory (listDirectory)
 
 import Common.Helper (attoToAeson)
 import GHC.Generics (Generic)
@@ -22,7 +23,14 @@ newtype TimeRange = TimeRange (TimeOfDay, TimeOfDay)
   deriving (Generic, Show)
 
 instance FromJSON TimeRange where
-  parseJSON v = attoToAeson parseTimeRange v
+  parseJSON = attoToAeson parseTimeRange
+
+loadHHs :: IO (Either String [HappyHour])
+loadHHs = do
+  let baseDir = "resources/data/"
+  filenames <- listDirectory baseDir
+  bytestrings <- traverse (B.readFile . (<>) baseDir) filenames
+  return $ traverse eitherDecode bytestrings
 
 parseTimeRange :: AP.Parser TimeRange
 parseTimeRange = do
@@ -39,6 +47,7 @@ data HappyHour = HappyHour
   { _city :: Text
   , _restaurant :: Text
   , _schedule :: [Schedule]
+  , _link :: Text
   } deriving (Generic, Show)
 
 instance FromJSON HappyHour where
@@ -48,15 +57,13 @@ data Schedule = Schedule
   { _days :: [DayOfWeek Gregorian]
   , _time :: TimeRange
   , _scheduleDescription :: Text
-  , _details :: [MenuItem]
   } deriving (Generic, Show)
 
 instance FromJSON Schedule where
   parseJSON = withObject "schedule" $ \o -> do
-    _days <- (fmap . fmap) read (o .: "days")
-    _time  <- o .: "time" >>= parseJSON
+    _days                 <- map read <$> o .: "days" -- read for String -> TimeOfDay
+    _time                 <- o .: "time" >>= parseJSON
     _scheduleDescription  <- o .: "scheduleDescription"
-    _details <- return []
     return Schedule{..}
 
 data MenuItem = MenuItem
@@ -77,14 +84,13 @@ mkUSD = fromInteger
 
 ppUSD :: USD -> Text
 ppUSD usd = "$" <> (pack . show) dollar <> "." <> (pack . show) cents
-    where
-  (dollar, cents) = divMod (toInteger usd) 100
+  where (dollar, cents) = divMod (toInteger usd) 100
 
 getMenu :: IO B.ByteString
 getMenu = B.readFile "resources/data/menu_item.json"
 
 -- goal for now
-jnkMenu :: IO (B.ByteString)
+jnkMenu :: IO B.ByteString
 jnkMenu = B.readFile "resources/data/johnny_noodle_king.json"
 
 parseSchedule :: B.ByteString -> Either String Schedule
