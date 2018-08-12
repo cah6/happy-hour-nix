@@ -7,10 +7,13 @@ import qualified Money
 import qualified Data.ByteString.Lazy as B
 import Data.Aeson
 import Data.Aeson.Types
+import Control.Lens (makeLenses)
 import Data.Monoid ((<>))
-import Data.Text (Text, pack, breakOn)
+import Data.Text (Text, pack, breakOn, intercalate)
+import Data.Time (formatTime)
 import Data.Time.Exts.Base hiding (pack)
 import Data.Time.Calendar (Day(..))
+import Data.Time.Format (defaultTimeLocale)
 import Data.Time.LocalTime (TimeOfDay(..))
 import System.Directory (listDirectory)
 
@@ -59,6 +62,28 @@ data Schedule = Schedule
   , _scheduleDescription :: Text
   } deriving (Generic, Show)
 
+printTimeRange :: TimeRange -> Text 
+printTimeRange (TimeRange (start, end)) = printTimeOfDay start <> "-" <> printTimeOfDay end 
+  
+printTimeOfDay :: TimeOfDay -> Text
+printTimeOfDay = pack . formatTime defaultTimeLocale "%-l:%M%P"
+
+printDays :: [DayOfWeek Gregorian] -> Text
+printDays []  = ""
+printDays [x]  = printDay x
+printDays xs = printDay (head xs) <> "-" <> printDay (last xs)  
+
+printDay :: DayOfWeek Gregorian -> Text 
+printDay = \case
+  Monday -> "M"
+  Tuesday -> "Tu"
+  Wednesday -> "W"
+  Thursday -> "Th"
+  Friday -> "F"
+  Saturday -> "Sat"
+  Sunday -> "Sun"
+
+
 instance FromJSON Schedule where
   parseJSON = withObject "schedule" $ \o -> do
     _days                 <- map read <$> o .: "days" -- read for String -> TimeOfDay
@@ -96,3 +121,7 @@ jnkMenu = B.readFile "resources/data/johnny_noodle_king.json"
 parseSchedule :: B.ByteString -> Either String Schedule
 parseSchedule bs = eitherDecode bs
 
+-- Make all the lenses
+
+makeLenses ''HappyHour
+makeLenses ''Schedule
