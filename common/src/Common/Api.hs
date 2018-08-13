@@ -7,7 +7,7 @@ import qualified Money
 import qualified Data.ByteString.Lazy as B
 import Data.Aeson
 import Data.Aeson.Types
-import Control.Lens (makeLenses)
+-- import Control.Lens (makeLenses)
 import Data.Monoid ((<>))
 import Data.Text (Text, pack, breakOn, intercalate)
 import Data.Time (formatTime)
@@ -123,5 +123,5 @@ parseSchedule bs = eitherDecode bs
 
 -- Make all the lenses
 
-makeLenses ''HappyHour
-makeLenses ''Schedule
+-- makeLenses ''HappyHour
+-- makeLenses ''Schedule

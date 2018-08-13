@@ -9,7 +9,10 @@ project ./. ({ pkgs, ... }: {
   ios.bundleName = "Obelisk Minimal Example";
 
   overrides = self: super: {
+    # cabal-install = ghc.callHackage "cabal-install" "2.0.0.1" {};
+    # safe-money = self.callHackage "safe-money" "0.3" {};
+    # lens-family-th = self.callHackage "lens-family-th" "0.4.1.0" {};
     safe-money = pkgs.haskell.lib.doJailbreak super.safe-money;
   };
-
+  
 })

@@ -8,7 +8,7 @@ library
   build-depends: base
                , common
                , containers
-               , lens
+               -- lens
                , mtl
                , reflex-dom
                , static

@@ -11,7 +11,7 @@ library
                       , aeson
                       , bytestring
                       , directory
-                      , lens
+                      -- , lens
                       , safe-money
                       , time
                       , time-exts
